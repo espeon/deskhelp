@@ -1,0 +1,25 @@
+[package]
+name = "deskhelp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-openai = "0.25.0"
+dotenv = "0.15.0"
+poise = "0.6.1"
+tokio = { version = "1.25.1", features = ["rt-multi-thread"] }
+futures = { version = "0.3.13", default-features = false }
+tiktoken-rs = { version = "0.6.0", features = ["async-openai"] }
+
+[dependencies.serenity]
+default-features = false
+features = [
+    "builder",
+    "client",
+    "gateway",
+    "model",
+    "utils",
+    "collector",
+    "framework",
+]
+version = "0.12.2"
