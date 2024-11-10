@@ -550,6 +550,7 @@ dependencies = [
  "poise",
  "serenity",
  "tiktoken-rs",
+ "time",
  "tokio",
 ]
 

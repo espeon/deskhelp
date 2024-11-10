@@ -10,6 +10,7 @@ poise = "0.6.1"
 tokio = { version = "1.25.1", features = ["rt-multi-thread"] }
 futures = { version = "0.3.13", default-features = false }
 tiktoken-rs = { version = "0.6.0", features = ["async-openai"] }
+time = { version = "0.3", features = ["formatting", "macros"] }
 
 [dependencies.serenity]
 default-features = false

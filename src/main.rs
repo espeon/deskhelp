@@ -1,4 +1,4 @@
-use ::serenity::all::{EventHandler, GatewayIntents, Mentionable, Message};
+use ::serenity::all::{EventHandler, GatewayIntents, Message};
 use ::serenity::prelude::TypeMapKey;
 use async_openai::config::OpenAIConfig;
 use async_openai::types::ChatCompletionRequestMessage;
@@ -33,8 +33,6 @@ async fn age(
     Ok(())
 }
 
-const AUTORESPOND_CHANNELS: [&str; 2] = ["-1302692329400041482", "1302734795238805565"];
-
 // Event handler
 struct Handler;
 
@@ -42,9 +40,17 @@ struct Handler;
 impl EventHandler for Handler {
     async fn message(&self, ctx: serenity::prelude::Context, msg: Message) {
         // are we mentioned?
+        // get autorespond channels list from env
+        let autorespond_channels: Vec<String> = std::env::var("AUTORESPOND_CHANNELS")
+            .unwrap_or("-1302692329400041482".to_string())
+            .split(',')
+            .map(|s| s.to_string())
+            .collect();
+
         if msg.mentions_user(&ctx.cache.current_user())
-            || AUTORESPOND_CHANNELS.contains(&msg.channel_id.to_string().as_str())
+            || autorespond_channels.contains(&msg.channel_id.to_string())
                 && !msg.author.bot
+                && !msg.content.starts_with("~")
         {
             // if we are in certain channels or mentioned
             let cctx = ctx.clone();
@@ -83,7 +89,12 @@ async fn main() {
         })
         .setup(|ctx, _ready, framework| {
             Box::pin(async move {
-                poise::builtins::register_globally(ctx, &framework.options().commands).await?;
+                //poise::builtins::register_globally(ctx, &framework.options().commands).await?;
+                // for all guilds we are in
+                for guild in ctx.cache.guilds() {
+                    poise::builtins::register_in_guild(ctx, &framework.options().commands, guild)
+                        .await?;
+                }
                 Ok(ud_clone)
             })
         })
