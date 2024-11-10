@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 async-openai = "0.25.0"
-dotenv = "0.15.0"
+dotenvy = "0.15.7"
 poise = "0.6.1"
 tokio = { version = "1.25.1", features = ["rt-multi-thread"] }
 futures = { version = "0.3.13", default-features = false }

@@ -3,7 +3,7 @@ use ::serenity::prelude::TypeMapKey;
 use async_openai::config::OpenAIConfig;
 use async_openai::types::ChatCompletionRequestMessage;
 use async_openai::Client as OpenAIClient;
-use dotenv::dotenv;
+use dotenvy::dotenv;
 use poise::serenity_prelude as serenity;
 use std::env;
 use std::sync::{Arc, Mutex};
