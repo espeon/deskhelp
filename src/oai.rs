@@ -91,7 +91,7 @@ This guide outlines common issues encountered while setting up and using DeskThi
 **Software Issues:**
 
 *   **"app local not found (is it running)" Error:** Uninstall the utility app. Its functionality has been integrated into the base app since version 0.9.0.
-*   **Car Thing Connects But No Audio:** In DeskThing settings (bottom left), navigate to the Music section, set a playback location, and save.
+*   **Car Thing Connects But No Audio:** In DeskThing settings (bottom left), navigate to the Music section, set a playback location and save.
 *   **"Getting Audio Data" / "Waiting For Song":** Ensure audio is actively playing on your chosen source and press "Play" or "Skip" on the Car Thing.
 
 **Setup & Configuration:**
@@ -167,6 +167,14 @@ For further assistance, consult the official DeskThing resources at <https://des
 4. Plug in your Car Thing and hit "Refresh ADB".  If this fails, refer to the Known Issues.
 5. Ensure a client is staged. If not, click "Downloads" to the left of "Restart Server".
 6. Click the "Configure" button.
+
+**Flashing Troubleshooting:**
+*   If you're having trouble flashing your Car Thing, the following steps may help.
+    *   **Windows - Device Not Showing Up:** You may need to install drivers. Open PowerShell and run: `irm https://driver.terbium.app/get | iex`
+    *   **Windows - "Access Denied" Error:** Uninstall existing drivers (GX-CHIP or WorldCup Device in Device Manager), selecting "Attempt to remove the driver for this device." Multiple uninstalls may be needed. Then, run the driver install command again `irm https://driver.terbium.app/get | iex`
+    *   **Linux - "Access Denied" Error:** Set up udev rules. Open a terminal and run: `curl -fsSL https://terbium.app/install-rules | bash`
+    *   **Device Not Appearing (Boots Normally):** You haven't booted into USB mode. Hold buttons 1 & 4 while plugging in. If it still boots normally, try different cables.
+    *   **Something Else Wrong?** Open a thread in the DeskThing Discord: <https://deskthing.app/discord>.
 
 ---
 Answering Guidelines:
