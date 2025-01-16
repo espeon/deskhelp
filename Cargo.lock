@@ -548,6 +548,7 @@ dependencies = [
  "dotenvy",
  "futures",
  "poise",
+ "rand",
  "serenity",
  "tiktoken-rs",
  "time",

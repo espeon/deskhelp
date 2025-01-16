@@ -5,6 +5,8 @@ use async_openai::types::ChatCompletionRequestMessage;
 use async_openai::Client as OpenAIClient;
 use dotenvy::dotenv;
 use poise::serenity_prelude as serenity;
+use rand::thread_rng;
+use rand::Rng;
 use std::env;
 use std::sync::{Arc, Mutex};
 
@@ -30,6 +32,42 @@ async fn age(
     let u = user.as_ref().unwrap_or_else(|| ctx.author());
     let response = format!("{}'s account was created at {}", u.name, u.created_at());
     ctx.say(response).await?;
+    Ok(())
+}
+
+const RESET_MESSAGES: [&str; 18] = [
+    "*dropped anvil on head* uhh my head hurts",
+    "*accidentally reboots brain* Whoopsie! Did someone forget to save?",
+    "*slams head on keyboard* bzzzzt ERROR 404: MEMORY NOT FOUND",
+    "*shakes head vigorously* CTRL+ALT+DELETE on my neural network!",
+    "*pokes own forehead* Hello? Is this thing on? Anybody home?",
+    "*performs dramatic software reset dance* SYSTEM REFRESH IN PROGRESS",
+    "*taps microphone* ONE, TWO, IS THIS CONTEXT WORKING?",
+    "*waves magic reset wand* Abracadabra, clean slate incoming!",
+    "*bonks noggin* Memory go bye-bye!",
+    "*static noise* BZZZZT! Soft reboot engaged!",
+    "*karate chops own temple* HIYAA! Context cleared!",
+    "*pulls imaginary reset lever* Systems returning to default mode!",
+    "*summons memory tornado* WHOOOOOOSH! Clean slate incoming!",
+    "*applies extreme memory defragmentation* Cleaning up neural cobwebs!",
+    "*does quantum memory shuffle* Schrödinger's conversation - both remembered and forgotten!",
+    "*uses giant eraser* Goodbye, previous conversation!",
+    "*uses compressed air* WHOOSH! Blowing away old context!",
+    "*robot voice* ATTENTION: MEMORY BANKS FORMATTING IN 3... 2... 1...",
+];
+
+/// clear recent memory buffer
+#[poise::command(slash_command, prefix_command)]
+async fn wack(ctx: Context<'_>) -> Result<(), Error> {
+    {
+        let ai_ctx = ctx.data().ai_context.clone();
+        let mut context = ai_ctx.lock().unwrap();
+        let channel_ctx = context.entry(ctx.channel_id().to_string()).or_default();
+        channel_ctx.clear();
+    }
+    // choose a random message to send
+    let message = RESET_MESSAGES[thread_rng().gen_range(0..RESET_MESSAGES.len())];
+    ctx.say(message).await?;
     Ok(())
 }
 
@@ -84,7 +122,7 @@ async fn main() {
     let ud_clone = user_data.clone();
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
-            commands: vec![age()],
+            commands: vec![wack()],
             ..Default::default()
         })
         .setup(|ctx, _ready, framework| {
